@@ -1,0 +1,17 @@
+# local postgres for your mac. start with: docker compose up -d
+# stop with: docker compose down   (data is kept in the volume)
+services:
+  db:
+    image: postgres:16
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: learn
+      POSTGRES_PASSWORD: learnpass
+      POSTGRES_DB: learn_deploy
+    ports:
+      - "127.0.0.1:5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
