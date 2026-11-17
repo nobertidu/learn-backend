@@ -107,6 +107,35 @@ app.get(
   })
 );
 
+// get a single post by id
+app.get(
+  "/api/posts/:id",
+  wrap(async (req, res) => {
+    const id = Number(req.params.id);
+    if (!Number.isInteger(id)) {
+      return res.status(400).json({ error: "bad id" });
+    }
+    const { rows } = await pool.query("SELECT * FROM posts WHERE id = $1", [id]);
+    if (rows.length === 0) return res.status(404).json({ error: "not found" });
+
+    const r = rows[0];
+    res.json({
+      id: r.id,
+      title: r.title,
+      body: r.body,
+      createdAt: r.created_at,
+      file: r.file_name
+        ? {
+            url: "/uploads/" + r.file_name,
+            name: r.file_original,
+            type: r.file_type,
+            kind: r.file_kind,
+          }
+        : null,
+    });
+  })
+);
+
 // create a post: text fields + optional single file called "file"
 app.post(
   "/api/posts",

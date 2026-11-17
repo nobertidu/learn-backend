@@ -14,6 +14,7 @@ node + express api with postgres. supports text posts and image, video, pdf/txt/
 
 - GET    /api/health       server and db status
 - GET    /api/posts        list posts
+- GET    /api/posts/:id    get one post
 - POST   /api/posts        create post (multipart form: title, body, file)
 - DELETE /api/posts/:id    delete post and its file
 - GET    /uploads/<file>   the uploaded file
